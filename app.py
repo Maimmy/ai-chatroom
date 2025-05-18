@@ -19,6 +19,12 @@ if "messages" not in st.session_state:
         {"role": "assistant", "content": "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀"}
     ]
 
+
+# 強制セッションリセット（あとで削除してOK）
+if "messages" in st.session_state:
+    del st.session_state["messages"]
+
+
 # タイトル表示
 st.title("こころの相談ノート by あいちゃん")
 st.markdown("---")
