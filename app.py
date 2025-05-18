@@ -3,7 +3,7 @@
 # 公開：スマホ対応、URLでアクセス可能
 
 import streamlit as st
-import openai
+from openai import OpenAI
 import os
 
 # OpenAI APIキー（後で.envやsecretsに設定）
@@ -37,11 +37,17 @@ if user_input:
     # ChatGPTからの返答を取得
     with st.chat_message("assistant"):
         with st.spinner("あいちゃんが考え中…"):
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=st.session_state.messages
-            )
-            reply = response.choices[0].message.content
+            from openai import OpenAI
+
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+# ChatGPTからの返答を取得（修正後）
+response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=st.session_state.messages
+)
+
+reply = response.choices[0].message.content
             st.markdown(reply)
     
     # 返答を履歴に追加
