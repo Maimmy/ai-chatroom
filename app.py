@@ -1,7 +1,7 @@
 # たまちゃんの "こころの相談ノート" チャット風アプリ設計（修正版）
 # 使用技術：Streamlit + OpenAI API（新バージョン）
 # 公開：スマホ対応、URLでアクセス可能
-st.session_state.clear()
+
 import streamlit as st
 from openai import OpenAI
 
