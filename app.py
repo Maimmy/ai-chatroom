@@ -4,7 +4,7 @@ import streamlit as st
 from openai import OpenAI
 
 # 🔐 パスワード認証
-PASSWORD = "secret123"  # 合言葉を変更してね
+PASSWORD = "coach"  # 合言葉を変更してね
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
