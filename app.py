@@ -24,8 +24,7 @@ system_prompt = st.secrets["SYSTEM_PROMPT"]
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "assistant", "content": "ねえ、なにか話したいことある？人に言えない自慢でも、心の中のドロドロでも、なんでもOK。
-ここでおしゃべりしてすっきりしよう！"}
+        {"role": "assistant", "content": "ねえ、なにか話したいことある？人に言えない自慢でも、心の中のドロドロでも、なんでもOK。ここでおしゃべりしてすっきりしよう！"}
     ]
 
 # タイトル表示
