@@ -85,7 +85,7 @@ if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     render_bubble(user_input, sender="user")
 
-    with st.spinner("ちょっと待ってね…"):
+    with st.spinner("あいちゃんが考え中…"):
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
