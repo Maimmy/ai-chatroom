@@ -1,8 +1,20 @@
-# たまちゃんの "こころの相談ノート" チャット風アプリ（Secrets対応＋system非表示）
-# 使用技術：Streamlit + OpenAI API（新バージョン）
+# たまちゃんの "こころの相談ノート" チャット風アプリ（Secrets対応＋system非表示＋パスワード認証）
 
 import streamlit as st
 from openai import OpenAI
+
+# 🔐 パスワード認証を追加
+PASSWORD = "coach"  # ※たまちゃんが設定する合言葉に変更してね
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+if not st.session_state.authenticated:
+    pw = st.text_input("🔐 合言葉を入力してください", type="password")
+    if pw == PASSWORD:
+        st.session_state.authenticated = True
+        st.success("ようこそ🌷")
+    else:
+        st.stop()
 
 # OpenAI APIキーとプロンプトをSecretsから取得
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
