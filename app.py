@@ -88,7 +88,7 @@ if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     render_bubble(user_input, sender="user")
 
-    with st.spinner("あいちゃんが考え中…"):
+    with st.spinner("ちょっと考え中…"):
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -96,6 +96,6 @@ if user_input:
             )
             reply = response.choices[0].message.content
         except Exception as e:
-            reply = "あいちゃん、いまちょっと混み合ってるみたい💦 もう一度時間をおいて話しかけてみてね。"
+            reply = "いまちょっと混み合ってるから、 もう一度時間をおいて話しかけてみてね。"
         render_bubble(reply, sender="assistant")
         st.session_state.messages.append({"role": "assistant", "content": reply})
