@@ -1,4 +1,4 @@
-# たまちゃんの "こころの相談ノート" チャット風アプリ（パスワード＋LINE風UI）
+# たまちゃんの "こころの相談ノート" チャット風アプリ（パスワード＋LINE風UI＋オリジナルアイコン）
 
 import streamlit as st
 from openai import OpenAI
@@ -31,20 +31,35 @@ if "messages" not in st.session_state:
 st.title("こころの相談ノート by あいちゃん")
 st.markdown("---")
 
-# 💬 LINE風の吹き出し表示関数
+# 💬 LINE風の吹き出し表示関数（オリジナルアイコン＋カラーカスタム）
 def render_bubble(message, sender="user"):
     if sender == "user":
         st.markdown(f"""
-        <div style="background-color:#dcf8c6; padding:10px 15px; border-radius:15px; margin-left:80px; margin-bottom:10px; max-width:70%; text-align:left">
-        🐶 {message}
+        <div style="display:flex; justify-content:flex-start; margin-bottom:10px">
+            <img src="https://raw.githubusercontent.com/maimmy-ai/ai-chatroom/main/20250519client.png" width="40" style="margin-right:10px; border-radius:50%;">
+            <div style="background-color:#93de83; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left">
+                {message}
+            </div>
         </div>
         """, unsafe_allow_html=True)
     elif sender == "assistant":
         st.markdown(f"""
-        <div style="background-color:#ffffff; padding:10px 15px; border-radius:15px; margin-right:80px; margin-bottom:10px; max-width:70%; text-align:left; border:1px solid #ddd">
-        🐱 {message}
+        <div style="display:flex; justify-content:flex-end; margin-bottom:10px">
+            <div style="background-color:#ffffff; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left; border:1px solid #ddd; margin-right:10px">
+                {message}
+            </div>
+            <img src="https://raw.githubusercontent.com/maimmy-ai/ai-chatroom/main/20250519coach.png" width="40" style="border-radius:50%;">
         </div>
         """, unsafe_allow_html=True)
+
+# 背景カラー変更
+st.markdown("""
+    <style>
+        body {
+            background-color: #93aad4;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
 # チャット履歴の表示（systemメッセージは除外）
 for msg in st.session_state.messages:
