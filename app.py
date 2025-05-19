@@ -1,11 +1,11 @@
-# たまちゃんの "こころの相談ノート" チャット風アプリ（パスワード＋LINE風UI＋ローカル画像）
+# たまちゃんの "こころの相談ノート" チャット風アプリ（アイコン固定＋吹き出し整形）
 
 import streamlit as st
 from openai import OpenAI
 import base64
 
 # 🔐 パスワード認証
-PASSWORD = "coach"  # 合言葉を変更してね
+PASSWORD = "secret123"
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
@@ -32,7 +32,7 @@ if "messages" not in st.session_state:
 st.title("こころの相談ノート")
 st.markdown("---")
 
-# 💬 LINE風の吹き出し表示関数（ローカル画像＋カラーカスタム）
+# 💬 LINE風の吹き出し表示関数（アイコン固定＋カラーカスタム）
 def get_image_base64(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode()
@@ -43,8 +43,9 @@ client_icon = get_image_base64("20250519client.png")
 def render_bubble(message, sender="user"):
     if sender == "assistant":
         st.markdown(f"""
-        <div style="display:flex; justify-content:flex-start; margin-bottom:10px">
-            <img src="data:image/png;base64,{coach_icon}" width="40" style="margin-right:10px; border-radius:50%;">
+        <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:10px">
+            <img src="data:image/png;base64,{coach_icon}" width="40" height="40"
+                 style="margin-right:10px; border-radius:50%; object-fit:cover; align-self:flex-start;">
             <div style="background-color:#ffffff; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left; border:1px solid #ddd">
                 {message}
             </div>
@@ -52,11 +53,12 @@ def render_bubble(message, sender="user"):
         """, unsafe_allow_html=True)
     elif sender == "user":
         st.markdown(f"""
-        <div style="display:flex; justify-content:flex-end; margin-bottom:10px">
+        <div style="display:flex; justify-content:flex-end; align-items:flex-start; margin-bottom:10px">
             <div style="background-color:#93de83; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left">
                 {message}
             </div>
-            <img src="data:image/png;base64,{client_icon}" width="40" style="margin-left:10px; border-radius:50%;">
+            <img src="data:image/png;base64,{client_icon}" width="40" height="40"
+                 style="margin-left:10px; border-radius:50%; object-fit:cover; align-self:flex-start;">
         </div>
         """, unsafe_allow_html=True)
 
@@ -80,12 +82,10 @@ for msg in st.session_state.messages:
 user_input = st.chat_input("あなたの気持ち、ここに書いてね…")
 
 if user_input:
-    # ユーザー入力の保存と表示
     st.session_state.messages.append({"role": "user", "content": user_input})
     render_bubble(user_input, sender="user")
 
-    # あいちゃんの返答取得と表示
-    with st.spinner("ちょっと考え中です…"):
+    with st.spinner("ちょっと待ってね…"):
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
