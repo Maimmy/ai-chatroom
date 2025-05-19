@@ -5,7 +5,7 @@ from openai import OpenAI
 import base64
 
 # 🔐 パスワード認証
-PASSWORD = "secret123"
+PASSWORD = "happy!"
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
