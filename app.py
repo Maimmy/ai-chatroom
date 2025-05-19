@@ -1,11 +1,11 @@
-# たまちゃんの "こころの相談ノート" チャット風アプリ（アイコン固定＋背景修正）
+# たまちゃんの "こころの相談ノート" チャット風アプリ（アイコン固定＋背景完全対応）
 
 import streamlit as st
 from openai import OpenAI
 import base64
 
 # 🔐 パスワード認証
-PASSWORD = "happy!"
+PASSWORD = "secret123"
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
@@ -62,10 +62,13 @@ def render_bubble(message, sender="user"):
         </div>
         """, unsafe_allow_html=True)
 
-# ✅ 背景カラーの修正（html, body, .main すべてに適用）
+# ✅ 背景カラーの完全対応（全体＋ブロックエリア）
 st.markdown("""
     <style>
-        html, body, .main {
+        html, body, [data-testid="stApp"] {
+            background-color: #93aad4 !important;
+        }
+        .main .block-container {
             background-color: #93aad4 !important;
         }
     </style>
