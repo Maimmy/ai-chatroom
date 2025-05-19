@@ -1,7 +1,8 @@
-# たまちゃんの "こころの相談ノート" チャット風アプリ（パスワード＋LINE風UI＋オリジナルアイコン）
+# たまちゃんの "こころの相談ノート" チャット風アプリ（パスワード＋LINE風UI＋ローカル画像）
 
 import streamlit as st
 from openai import OpenAI
+import base64
 
 # 🔐 パスワード認証
 PASSWORD = "coach"  # 合言葉を変更してね
@@ -28,27 +29,34 @@ if "messages" not in st.session_state:
     ]
 
 # タイトル
-st.title("こころの相談ノート by あいちゃん")
+st.title("こころの相談ノート")
 st.markdown("---")
 
-# 💬 LINE風の吹き出し表示関数（オリジナルアイコン＋カラーカスタム）
+# 💬 LINE風の吹き出し表示関数（ローカル画像＋カラーカスタム）
+def get_image_base64(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+coach_icon = get_image_base64("20250519coach.png")
+client_icon = get_image_base64("20250519client.png")
+
 def render_bubble(message, sender="user"):
-    if sender == "user":
+    if sender == "assistant":
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-start; margin-bottom:10px">
-            <img src="https://raw.githubusercontent.com/maimmy-ai/ai-chatroom/main/20250519client.png" width="40" style="margin-right:10px; border-radius:50%;">
-            <div style="background-color:#93de83; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left">
+            <img src="data:image/png;base64,{coach_icon}" width="40" style="margin-right:10px; border-radius:50%;">
+            <div style="background-color:#ffffff; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left; border:1px solid #ddd">
                 {message}
             </div>
         </div>
         """, unsafe_allow_html=True)
-    elif sender == "assistant":
+    elif sender == "user":
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-end; margin-bottom:10px">
-            <div style="background-color:#ffffff; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left; border:1px solid #ddd; margin-right:10px">
+            <div style="background-color:#93de83; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left">
                 {message}
             </div>
-            <img src="https://raw.githubusercontent.com/maimmy-ai/ai-chatroom/main/20250519coach.png" width="40" style="border-radius:50%;">
+            <img src="data:image/png;base64,{client_icon}" width="40" style="margin-left:10px; border-radius:50%;">
         </div>
         """, unsafe_allow_html=True)
 
@@ -77,7 +85,7 @@ if user_input:
     render_bubble(user_input, sender="user")
 
     # あいちゃんの返答取得と表示
-    with st.spinner("あいちゃんが考え中…"):
+    with st.spinner("ちょっと考え中です…"):
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
