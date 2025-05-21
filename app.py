@@ -47,7 +47,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 st.markdown("---")
 st.markdown("""
-<small>📝 答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。あいちゃんが、ヒントをくれるよ</small>
+<small>📝 答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。あいちゃんが、ヒントをくれるよ🌱</small>
 """, unsafe_allow_html=True)
 
 # LINE風スタイルCSS（吹き出し＋背景・三角削除・アイコン調整）
@@ -101,7 +101,7 @@ def render_bubble(message, sender="user"):
                 <img src="https://raw.githubusercontent.com/Maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png" width="32" style="min-width:32px; height:auto;" />
             </div>
             <div>
-                <div class="bubble-left">{message}<br><span style='font-size:10px; color:#888;'>{timestamp}</span></div>
+                <div class="bubble-left">{message}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -109,7 +109,7 @@ def render_bubble(message, sender="user"):
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-end; align-items:flex-end; margin-bottom:4px">
             <div>
-                <div class="bubble-right">{message}<br><span style='font-size:10px; color:#555;'>既読　{timestamp}</span></div>
+                <div class="bubble-right">{message}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
