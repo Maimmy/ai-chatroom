@@ -24,11 +24,11 @@ system_prompt = st.secrets["SYSTEM_PROMPT"]
 
 # ランダムな初回メッセージ候補
 greeting_options = [
-    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ",
-    "よかったら、いまの気持ち、ここに置いていってもいいよ",
+    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀",
+    "よかったら、いまの気持ち、ここに置いていってもいいよ🌿",
     "うんうん、まずは深呼吸して…どこから話してみようか？",
-    "なんだかモヤモヤする？そのまんまでも大丈夫だよ",
-    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて"
+    "なんだかモヤモヤする？そのまんまでも大丈夫だよ。",
+    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて🕊️"
 ]
 initial_greeting = random.choice(greeting_options)
 
@@ -89,16 +89,16 @@ st.markdown("""
         .meta-left {
             font-size: 10px;
             color: #444;
-            margin-top: 2px;
+            margin-top: 4px;
             text-align: left;
-            margin-left: -50px;
+            margin-left: 0;
         }
         .meta-right {
             font-size: 10px;
             color: #444;
-            margin-top: 2px;
+            margin-top: 4px;
             text-align: right;
-            margin-left: 8px;
+            margin-right: 0;
         }
     </style>
 """, unsafe_allow_html=True)
