@@ -25,11 +25,11 @@ system_prompt = st.secrets["SYSTEM_PROMPT"]
 
 # ランダムな初回メッセージ候補
 greeting_options = [
-    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀",
-    "よかったら、いまの気持ち、ここに置いていってもいいよ🌿",
+    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ",
+    "よかったら、いまの気持ち、ここに置いていってもいいよ",
     "うんうん、まずは深呼吸して…どこから話してみようか？",
     "なんだかモヤモヤする？そのまんまでも大丈夫だよ。",
-    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて🕊️"
+    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて"
 ]
 initial_greeting = random.choice(greeting_options)
 
@@ -51,7 +51,7 @@ st.markdown("""
 <small>📝 答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。あいちゃんが、ヒントをくれるよ🌱</small>
 """, unsafe_allow_html=True)
 
-# LINE風スタイルCSS（吹き出し＋しっぽ＋背景）
+# LINE風スタイルCSS（吹き出し＋背景・三角削除・アイコン調整）
 st.markdown("""
     <style>
         html, body, [data-testid="stApp"] {
@@ -59,6 +59,9 @@ st.markdown("""
         }
         .main .block-container {
             background-color: #93aad4 !important;
+        }
+        header, [data-testid="stStatusWidget"], [data-testid="stToolbar"], .viewerBadge_container__1QSob {
+            display: none !important;
         }
         .bubble-left {
             position: relative;
@@ -70,18 +73,6 @@ st.markdown("""
             max-width: 70%;
             text-align: left;
         }
-        .bubble-left::after {
-            content: "";
-            position: absolute;
-            left: -10px;
-            top: 10px;
-            width: 0;
-            height: 0;
-            border: 10px solid transparent;
-            border-right-color: #ffffff;
-            border-left: 0;
-            margin-top: -10px;
-        }
         .bubble-right {
             position: relative;
             background: #93de83;
@@ -92,22 +83,9 @@ st.markdown("""
             max-width: 70%;
             text-align: left;
         }
-        .bubble-right::after {
-            content: "";
-            position: absolute;
-            right: -10px;
-            top: 10px;
-            width: 0;
-            height: 0;
-            border: 10px solid transparent;
-            border-left-color: #93de83;
-            border-right: 0;
-            margin-top: -10px;
-        }
         .meta {
             font-size: 10px;
             color: #444;
-            text-align: right;
             margin-top: 4px;
         }
     </style>
@@ -115,22 +93,23 @@ st.markdown("""
 
 # 吹き出し描画（テキスト＋時間＋既読）
 def render_bubble(message, sender="user"):
-    timestamp = datetime.now().strftime("%p %I:%M").replace("AM", "午前").replace("PM", "午後")
+    timestamp = datetime.now().strftime("%H:%M")  # 24時間表記
     if sender == "assistant":
         st.markdown(f"""
-        <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:10px">
-            <div class="bubble-left">
-                {message}<br>
+        <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:4px">
+            <img src="https://raw.githubusercontent.com/yourrepo/20250519coach.png" width="32" style="margin-right:8px;" />
+            <div>
+                <div class="bubble-left">{message}</div>
                 <div class="meta">{timestamp}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
     elif sender == "user":
         st.markdown(f"""
-        <div style="display:flex; justify-content:flex-end; align-items:flex-start; margin-bottom:10px">
-            <div class="bubble-right">
-                {message}<br>
-                <div class="meta">既読　{timestamp}</div>
+        <div style="display:flex; justify-content:flex-end; align-items:flex-start; margin-bottom:4px">
+            <div>
+                <div class="bubble-right">{message}</div>
+                <div class="meta" style="text-align:right;">既読　{timestamp}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
