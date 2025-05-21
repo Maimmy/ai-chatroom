@@ -42,12 +42,12 @@ if "messages" not in st.session_state:
 # タイトルとヒント表示
 st.markdown("""
 <div style="text-align: center; line-height: 1.8; font-size: 22px; font-weight: bold;">
-なんでも置いてって<br>～こころの休憩所～<br>ゆるっと、話そ？
+なんでも置いてって～こころの休憩所～<br>ゆるっと、話そ？
 </div>
 """, unsafe_allow_html=True)
 st.markdown("---")
 st.markdown("""
-答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。ヒントをだします！
+<small>📝 答えずらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。ヒント出しまーす！</small>
 """, unsafe_allow_html=True)
 
 # LINE風スタイルCSS（吹き出し＋背景・三角削除・アイコン調整＋フッター非表示）
@@ -59,15 +59,20 @@ st.markdown("""
         .main .block-container {
             background-color: #93aad4 !important;
         }
-        header, [data-testid="stStatusWidget"], [data-testid="stToolbar"], .viewerBadge_container__1QSob, .stDeployButton, .stActionButton, .stFloatingButton, footer, #MainMenu {
+        header,
+        [data-testid="stStatusWidget"],
+        [data-testid="stToolbar"],
+        .viewerBadge_container__1QSob,
+        .stDeployButton,
+        .stActionButton,
+        .stFloatingButton,
+        footer,
+        #MainMenu,
+        .st-emotion-cache-1v0mbdj,
+        .st-emotion-cache-1avcm0n {
             display: none !important;
             visibility: hidden;
         }
-        footer, .st-emotion-cache-1v0mbdj, .st-emotion-cache-1avcm0n {
-        display: none !important;
-        visibility: hidden !important;
-    　　}
-
         .bubble-left {
             position: relative;
             background: #ffffff;
@@ -127,7 +132,7 @@ for msg in st.session_state.messages:
         render_bubble(msg["content"], sender="assistant")
 
 # 入力段
-user_input = st.chat_input("あなたの気持ち、ここに書いてね…")
+user_input = st.chat_input("あなたの気持ち、ここに書いてね…遠慮はいらないよ！")
 
 if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
@@ -141,6 +146,6 @@ if user_input:
             )
             reply = response.choices[0].message.content
         except Exception as e:
-            reply = "あいちゃん、いまちょっと混み合ってるみたい🚦 もう一度時間をおいて話しかけてみてね。"
+            reply = "いまちょっと混み合ってるみたい🚦 もう一度時間をおいて話しかけてみてね。"
         render_bubble(reply, sender="assistant")
         st.session_state.messages.append({"role": "assistant", "content": reply})
