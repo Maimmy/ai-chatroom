@@ -97,7 +97,7 @@ def render_bubble(message, sender="user"):
     if sender == "assistant":
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:4px">
-            <img src="https://raw.githubusercontent.com/yourrepo/20250519coach.png" width="32" style="margin-right:8px;" />
+            <img src="https://raw.githubusercontent.com/maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png">
             <div>
                 <div class="bubble-left">{message}</div>
                 <div class="meta">{timestamp}</div>
