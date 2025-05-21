@@ -26,7 +26,7 @@ system_prompt = st.secrets["SYSTEM_PROMPT"]
 greeting_options = [
     "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ",
     "よかったら、いまの気持ち、ここに置いていってもいいよ",
-    "うんうん、まずは深呼吸して…どこから話してみようか？",
+    "うんうん、まずは深吸吼して…どこから話してみようか？",
     "なんだかモヤモヤする？そのまんまでも大丈夫だよ",
     "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて"
 ]
@@ -47,10 +47,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 st.markdown("---")
 st.markdown("""
-<small>答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。ヒントをだします！</small>
+答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。ヒントをだします！
 """, unsafe_allow_html=True)
 
-# LINE風スタイルCSS（吹き出し＋背景・三角削除・アイコン調整）
+# LINE風スタイルCSS（吹き出し＋背景・三角削除・アイコン調整＋フッター非表示）
 st.markdown("""
     <style>
         html, body, [data-testid="stApp"] {
@@ -59,10 +59,8 @@ st.markdown("""
         .main .block-container {
             background-color: #93aad4 !important;
         }
-        header, [data-testid="stStatusWidget"], [data-testid="stToolbar"], .viewerBadge_container__1QSob, .stDeployButton, .stActionButton, .stFloatingButton {
+        header, [data-testid="stStatusWidget"], [data-testid="stToolbar"], .viewerBadge_container__1QSob, .stDeployButton, .stActionButton, .stFloatingButton, footer, #MainMenu {
             display: none !important;
-        }
-        #MainMenu, footer, .stDeployButton {
             visibility: hidden;
         }
         .bubble-left {
@@ -111,7 +109,7 @@ def render_bubble(message, sender="user"):
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-end; align-items:flex-end; margin-bottom:4px">
             <div>
-                <div class="bubble-right">{message}<br><span style='font-size:10px; color:#555;'>既読</span></div>
+                <div class="bubble-right">{message}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -123,7 +121,7 @@ for msg in st.session_state.messages:
     elif msg["role"] == "assistant":
         render_bubble(msg["content"], sender="assistant")
 
-# 入力欄
+# 入力段
 user_input = st.chat_input("あなたの気持ち、ここに書いてね…")
 
 if user_input:
@@ -138,6 +136,6 @@ if user_input:
             )
             reply = response.choices[0].message.content
         except Exception as e:
-            reply = "あいちゃん、いまちょっと混み合ってるみたい💦 もう一度時間をおいて話しかけてみてね。"
+            reply = "あいちゃん、いまちょっと混み合ってるみたい🚦 もう一度時間をおいて話しかけてみてね。"
         render_bubble(reply, sender="assistant")
         st.session_state.messages.append({"role": "assistant", "content": reply})
