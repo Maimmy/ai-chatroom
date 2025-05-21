@@ -63,9 +63,10 @@ st.markdown("""
             display: none !important;
             visibility: hidden;
         }
-         #MainMenu, footer, .stDeployButton {
-        visibility: hidden;
-  　　  }
+        footer, .st-emotion-cache-1v0mbdj, .st-emotion-cache-1avcm0n {
+        display: none !important;
+        visibility: hidden !important;
+    　　}
 
         .bubble-left {
             position: relative;
