@@ -15,7 +15,7 @@ if not st.session_state.authenticated:
     pw = st.text_input("🔐 合言葉を入力してください", type="password")
     if pw == PASSWORD:
         st.session_state.authenticated = True
-        st.success("ようこそ🌷")
+        
     else:
         st.stop()
 
@@ -25,11 +25,11 @@ system_prompt = st.secrets["SYSTEM_PROMPT"]
 
 # ランダムな初回メッセージ候補
 greeting_options = [
-    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ",
-    "よかったら、いまの気持ち、ここに置いていってもいいよ",
+    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀",
+    "よかったら、いまの気持ち、ここに置いていってもいいよ🌿",
     "うんうん、まずは深呼吸して…どこから話してみようか？",
     "なんだかモヤモヤする？そのまんまでも大丈夫だよ。",
-    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて"
+    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて🕊️"
 ]
 initial_greeting = random.choice(greeting_options)
 
@@ -97,7 +97,7 @@ def render_bubble(message, sender="user"):
     if sender == "assistant":
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:4px">
-            <img src="https://raw.githubusercontent.com/maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png">
+            <img src=\"https://raw.githubusercontent.com/Maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png\" width=\"32\" style="margin-right:8px;" />
             <div>
                 <div class="bubble-left">{message}</div>
                 <div class="meta">{timestamp}</div>
