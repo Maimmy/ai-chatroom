@@ -1,9 +1,10 @@
-# たまちゃんの "こころの相談ノート" チャット風アプリ（起動メッセージランダム＋ヒント表示）
+# たまちゃんの "こころの相談ノート" チャット風アプリ（LINE風デザイン改良）
 
 import streamlit as st
 from openai import OpenAI
 import base64
 import random
+from datetime import datetime
 
 # 🔐 パスワード認証
 PASSWORD = "happy!"
@@ -40,43 +41,17 @@ if "messages" not in st.session_state:
     ]
 
 # タイトルとヒント表示
-st.title("こころの相談ノート")
+st.markdown("""
+<div style="text-align: center; line-height: 1.8; font-size: 22px; font-weight: bold;">
+なんでも置いてって～こころの休憩所～<br>ゆるっと、話そ？
+</div>
+""", unsafe_allow_html=True)
 st.markdown("---")
 st.markdown("""
 <small>📝 答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。あいちゃんが、ヒントをくれるよ🌱</small>
 """, unsafe_allow_html=True)
 
-# 💬 LINE風の吹き出し表示関数（アイコン固定＋カラーカスタム）
-def get_image_base64(path):
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode()
-
-coach_icon = get_image_base64("20250519coach.png")
-client_icon = get_image_base64("20250519client.png")
-
-def render_bubble(message, sender="user"):
-    if sender == "assistant":
-        st.markdown(f"""
-        <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:10px">
-            <img src="data:image/png;base64,{coach_icon}" width="40" height="40"
-                 style="margin-right:10px; border-radius:50%; object-fit:cover; align-self:flex-start;">
-            <div style="background-color:#ffffff; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left; border:1px solid #ddd">
-                {message}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    elif sender == "user":
-        st.markdown(f"""
-        <div style="display:flex; justify-content:flex-end; align-items:flex-start; margin-bottom:10px">
-            <div style="background-color:#93de83; padding:10px 15px; border-radius:15px; max-width:70%; text-align:left">
-                {message}
-            </div>
-            <img src="data:image/png;base64,{client_icon}" width="40" height="40"
-                 style="margin-left:10px; border-radius:50%; object-fit:cover; align-self:flex-start;">
-        </div>
-        """, unsafe_allow_html=True)
-
-# 背景カラーの完全対応（全体＋ブロックエリア）
+# LINE風スタイルCSS（吹き出し＋しっぽ＋背景）
 st.markdown("""
     <style>
         html, body, [data-testid="stApp"] {
@@ -85,8 +60,80 @@ st.markdown("""
         .main .block-container {
             background-color: #93aad4 !important;
         }
+        .bubble-left {
+            position: relative;
+            background: #ffffff;
+            color: #000;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin: 5px 0;
+            max-width: 70%;
+            text-align: left;
+        }
+        .bubble-left::after {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 10px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-right-color: #ffffff;
+            border-left: 0;
+            margin-top: -10px;
+        }
+        .bubble-right {
+            position: relative;
+            background: #93de83;
+            color: #000;
+            padding: 10px 15px;
+            border-radius: 15px;
+            margin: 5px 0;
+            max-width: 70%;
+            text-align: left;
+        }
+        .bubble-right::after {
+            content: "";
+            position: absolute;
+            right: -10px;
+            top: 10px;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-left-color: #93de83;
+            border-right: 0;
+            margin-top: -10px;
+        }
+        .meta {
+            font-size: 10px;
+            color: #444;
+            text-align: right;
+            margin-top: 4px;
+        }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+
+# 吹き出し描画（テキスト＋時間＋既読）
+def render_bubble(message, sender="user"):
+    timestamp = datetime.now().strftime("%p %I:%M").replace("AM", "午前").replace("PM", "午後")
+    if sender == "assistant":
+        st.markdown(f"""
+        <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:10px">
+            <div class="bubble-left">
+                {message}<br>
+                <div class="meta">{timestamp}</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    elif sender == "user":
+        st.markdown(f"""
+        <div style="display:flex; justify-content:flex-end; align-items:flex-start; margin-bottom:10px">
+            <div class="bubble-right">
+                {message}<br>
+                <div class="meta">既読　{timestamp}</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
 # チャット履歴の表示（systemメッセージは除外）
 for msg in st.session_state.messages:
