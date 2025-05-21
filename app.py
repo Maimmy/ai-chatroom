@@ -47,7 +47,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 st.markdown("---")
 st.markdown("""
-<small>📝 答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。あいちゃんが、ヒントをくれるよ🌱</small>
+<small>答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。ヒントをだします！</small>
 """, unsafe_allow_html=True)
 
 # LINE風スタイルCSS（吹き出し＋背景・三角削除・アイコン調整）
@@ -61,6 +61,9 @@ st.markdown("""
         }
         header, [data-testid="stStatusWidget"], [data-testid="stToolbar"], .viewerBadge_container__1QSob, .stDeployButton, .stActionButton, .stFloatingButton {
             display: none !important;
+        }
+        #MainMenu, footer, .stDeployButton {
+            visibility: hidden;
         }
         .bubble-left {
             position: relative;
@@ -91,9 +94,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 吹き出し描画（テキスト＋時間＋既読）
+# 吹き出し描画（テキスト）
 def render_bubble(message, sender="user"):
-    timestamp = (datetime.utcnow() + timedelta(hours=9)).strftime("%H:%M")  # 日本時間
     if sender == "assistant":
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:4px">
@@ -109,7 +111,7 @@ def render_bubble(message, sender="user"):
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-end; align-items:flex-end; margin-bottom:4px">
             <div>
-                <div class="bubble-right">{message}</div>
+                <div class="bubble-right">{message}<br><span style='font-size:10px; color:#555;'>既読</span></div>
             </div>
         </div>
         """, unsafe_allow_html=True)
