@@ -7,7 +7,7 @@ import random
 from datetime import datetime
 
 # 🔐 パスワード認証
-PASSWORD = "happy!"
+PASSWORD = "secret123"
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
@@ -24,11 +24,11 @@ system_prompt = st.secrets["SYSTEM_PROMPT"]
 
 # ランダムな初回メッセージ候補
 greeting_options = [
-    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ",
-    "よかったら、いまの気持ち、ここに置いていってもいいよ",
+    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀",
+    "よかったら、いまの気持ち、ここに置いていってもいいよ🌿",
     "うんうん、まずは深呼吸して…どこから話してみようか？",
     "なんだかモヤモヤする？そのまんまでも大丈夫だよ。",
-    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて"
+    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて🕊️"
 ]
 initial_greeting = random.choice(greeting_options)
 
@@ -90,7 +90,6 @@ st.markdown("""
             font-size: 10px;
             color: #444;
             margin-top: 2px;
-            padding-left: 6px;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -100,11 +99,12 @@ def render_bubble(message, sender="user"):
     timestamp = datetime.now().strftime("%H:%M")  # 24時間表記
     if sender == "assistant":
         st.markdown(f"""
-        <div style="display:flex; justify-content:flex-start; align-items:flex-end; margin-bottom:4px">
-            <img src="https://raw.githubusercontent.com/Maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png" width="32" style="margin-right:8px;" />
+        <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:4px">
+            <div style="margin-top: 4px; margin-right:8px;">
+                <img src="https://raw.githubusercontent.com/Maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png" width="32" />
+            </div>
             <div>
-                <div class="bubble-left">{message}</div>
-                <div class="meta">{timestamp}</div>
+                <div class="bubble-left">{message}<span class="meta" style="margin-left: 8px;">{timestamp}</span></div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -112,8 +112,8 @@ def render_bubble(message, sender="user"):
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-end; align-items:flex-end; margin-bottom:4px">
             <div>
+                <div class="meta" style="text-align:left; padding-left:6px;">既読　{timestamp}</div>
                 <div class="bubble-right">{message}</div>
-                <div class="meta" style="text-align:right; padding-right:6px;">既読　{timestamp}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
