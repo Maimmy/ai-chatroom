@@ -4,7 +4,7 @@ import streamlit as st
 from openai import OpenAI
 import base64
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # 🔐 パスワード認証
 PASSWORD = "happy!"
@@ -86,17 +86,26 @@ st.markdown("""
             white-space: pre-wrap;
             word-wrap: break-word;
         }
-        .meta {
+        .meta-left {
             font-size: 10px;
             color: #444;
             margin-top: 2px;
+            text-align: left;
+            margin-left: -50px;
+        }
+        .meta-right {
+            font-size: 10px;
+            color: #444;
+            margin-top: 2px;
+            text-align: right;
+            margin-left: 8px;
         }
     </style>
 """, unsafe_allow_html=True)
 
 # 吹き出し描画（テキスト＋時間＋既読）
 def render_bubble(message, sender="user"):
-    timestamp = datetime.now().strftime("%H:%M")  # 24時間表記
+    timestamp = (datetime.utcnow() + timedelta(hours=9)).strftime("%H:%M")  # 日本時間
     if sender == "assistant":
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:4px">
@@ -104,7 +113,8 @@ def render_bubble(message, sender="user"):
                 <img src="https://raw.githubusercontent.com/Maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png" width="32" />
             </div>
             <div>
-                <div class="bubble-left">{message}<span class="meta" style="margin-left: 8px;">{timestamp}</span></div>
+                <div class="bubble-left">{message}</div>
+                <div class="meta-right">{timestamp}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -112,8 +122,8 @@ def render_bubble(message, sender="user"):
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-end; align-items:flex-end; margin-bottom:4px">
             <div>
-                <div class="meta" style="text-align:left; padding-left:6px;">既読　{timestamp}</div>
                 <div class="bubble-right">{message}</div>
+                <div class="meta-left">既読　{timestamp}</div>
             </div>
         </div>
         """, unsafe_allow_html=True)
