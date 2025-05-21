@@ -63,6 +63,10 @@ st.markdown("""
             display: none !important;
             visibility: hidden;
         }
+         #MainMenu, footer, .stDeployButton {
+        visibility: hidden;
+  　　  }
+
         .bubble-left {
             position: relative;
             background: #ffffff;
