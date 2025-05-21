@@ -7,7 +7,7 @@ import random
 from datetime import datetime
 
 # 🔐 パスワード認証
-PASSWORD = "secret123"
+PASSWORD = "happy!"
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
@@ -24,11 +24,11 @@ system_prompt = st.secrets["SYSTEM_PROMPT"]
 
 # ランダムな初回メッセージ候補
 greeting_options = [
-    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀",
-    "よかったら、いまの気持ち、ここに置いていってもいいよ🌿",
+    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ",
+    "よかったら、いまの気持ち、ここに置いていってもいいよ",
     "うんうん、まずは深呼吸して…どこから話してみようか？",
-    "なんだかモヤモヤする？そのまんまでも大丈夫だよ。",
-    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて🕊️"
+    "なんだかモヤモヤする？そのまんまでも大丈夫だよ",
+    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて"
 ]
 initial_greeting = random.choice(greeting_options)
 
