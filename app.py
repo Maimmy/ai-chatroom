@@ -1,11 +1,12 @@
-# たまちゃんの "こころの相談ノート" チャット風アプリ（アイコン固定＋背景完全対応）
+# たまちゃんの "こころの相談ノート" チャット風アプリ（起動メッセージランダム＋ヒント表示）
 
 import streamlit as st
 from openai import OpenAI
 import base64
+import random
 
 # 🔐 パスワード認証
-PASSWORD = "happy!"
+PASSWORD = "secret123"
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 
@@ -21,16 +22,29 @@ if not st.session_state.authenticated:
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 system_prompt = st.secrets["SYSTEM_PROMPT"]
 
+# ランダムな初回メッセージ候補
+greeting_options = [
+    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀",
+    "よかったら、いまの気持ち、ここに置いていってもいいよ🌿",
+    "うんうん、まずは深呼吸して…どこから話してみようか？",
+    "なんだかモヤモヤする？そのまんまでも大丈夫だよ。",
+    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて🕊️"
+]
+initial_greeting = random.choice(greeting_options)
+
 # セッション初期化
 if "messages" not in st.session_state:
     st.session_state.messages = [
         {"role": "system", "content": system_prompt},
-        {"role": "assistant", "content": "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀"}
+        {"role": "assistant", "content": initial_greeting}
     ]
 
-# タイトル
+# タイトルとヒント表示
 st.title("こころの相談ノート")
 st.markdown("---")
+st.markdown("""
+<small>📝 答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。あいちゃんが、ヒントをくれるよ🌱</small>
+""", unsafe_allow_html=True)
 
 # 💬 LINE風の吹き出し表示関数（アイコン固定＋カラーカスタム）
 def get_image_base64(path):
@@ -62,7 +76,7 @@ def render_bubble(message, sender="user"):
         </div>
         """, unsafe_allow_html=True)
 
-# ✅ 背景カラーの完全対応（全体＋ブロックエリア）
+# 背景カラーの完全対応（全体＋ブロックエリア）
 st.markdown("""
     <style>
         html, body, [data-testid="stApp"] {
@@ -88,7 +102,7 @@ if user_input:
     st.session_state.messages.append({"role": "user", "content": user_input})
     render_bubble(user_input, sender="user")
 
-    with st.spinner("ちょっと考え中…"):
+    with st.spinner("あいちゃんが考え中…"):
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -96,6 +110,6 @@ if user_input:
             )
             reply = response.choices[0].message.content
         except Exception as e:
-            reply = "いまちょっと混み合ってるから、 もう一度時間をおいて話しかけてみてね。"
+            reply = "あいちゃん、いまちょっと混み合ってるみたい💦 もう一度時間をおいて話しかけてみてね。"
         render_bubble(reply, sender="assistant")
         st.session_state.messages.append({"role": "assistant", "content": reply})
