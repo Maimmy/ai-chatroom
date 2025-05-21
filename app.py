@@ -24,11 +24,11 @@ system_prompt = st.secrets["SYSTEM_PROMPT"]
 
 # ランダムな初回メッセージ候補
 greeting_options = [
-    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ🍀",
-    "よかったら、いまの気持ち、ここに置いていってもいいよ🌿",
+    "ねえ、今日はどんなことがあった？なんでも話して大丈夫だよ",
+    "よかったら、いまの気持ち、ここに置いていってもいいよ",
     "うんうん、まずは深呼吸して…どこから話してみようか？",
-    "なんだかモヤモヤする？そのまんまでも大丈夫だよ。",
-    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて🕊️"
+    "なんだかモヤモヤする？そのまんまでも大丈夫だよ",
+    "言葉にならなくてもいいよ。浮かんだこと、ここに書いてみて"
 ]
 initial_greeting = random.choice(greeting_options)
 
@@ -42,12 +42,12 @@ if "messages" not in st.session_state:
 # タイトルとヒント表示
 st.markdown("""
 <div style="text-align: center; line-height: 1.8; font-size: 22px; font-weight: bold;">
-なんでも置いてって～こころの休憩所～<br>ゆるっと、話そ？
+なんでも置いてって<br>～こころの休憩所～<br>ゆるっと、話そ？
 </div>
 """, unsafe_allow_html=True)
 st.markdown("---")
 st.markdown("""
-<small>📝 答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。あいちゃんが、ヒントをくれるよ🌱</small>
+<small>📝 答えづらいな…って思ったときは、<strong>「選択肢ほしい」</strong>って言ってみてね。あいちゃんが、ヒントをくれるよ</small>
 """, unsafe_allow_html=True)
 
 # LINE風スタイルCSS（吹き出し＋背景・三角削除・アイコン調整）
@@ -73,6 +73,7 @@ st.markdown("""
             text-align: left;
             white-space: pre-wrap;
             word-wrap: break-word;
+            font-size: 14px;
         }
         .bubble-right {
             position: relative;
@@ -85,20 +86,7 @@ st.markdown("""
             text-align: left;
             white-space: pre-wrap;
             word-wrap: break-word;
-        }
-        .meta-left {
-            font-size: 10px;
-            color: #444;
-            margin-top: 4px;
-            text-align: left;
-            margin-left: 0;
-        }
-        .meta-right {
-            font-size: 10px;
-            color: #444;
-            margin-top: 4px;
-            text-align: right;
-            margin-right: 0;
+            font-size: 14px;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -110,11 +98,10 @@ def render_bubble(message, sender="user"):
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-start; align-items:flex-start; margin-bottom:4px">
             <div style="margin-top: 4px; margin-right:8px;">
-                <img src="https://raw.githubusercontent.com/Maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png" width="32" />
+                <img src="https://raw.githubusercontent.com/Maimmy/ai-chatroom/f086cb7861fd372832d99c02c4d4ad2bcde6ea39/20250519coach.png" width="32" style="min-width:32px; height:auto;" />
             </div>
             <div>
-                <div class="bubble-left">{message}</div>
-                <div class="meta-right">{timestamp}</div>
+                <div class="bubble-left">{message}<br><span style='font-size:10px; color:#888;'>{timestamp}</span></div>
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -122,8 +109,7 @@ def render_bubble(message, sender="user"):
         st.markdown(f"""
         <div style="display:flex; justify-content:flex-end; align-items:flex-end; margin-bottom:4px">
             <div>
-                <div class="bubble-right">{message}</div>
-                <div class="meta-left">既読　{timestamp}</div>
+                <div class="bubble-right">{message}<br><span style='font-size:10px; color:#555;'>既読　{timestamp}</span></div>
             </div>
         </div>
         """, unsafe_allow_html=True)
